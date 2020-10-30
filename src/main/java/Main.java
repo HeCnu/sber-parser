@@ -1,17 +1,22 @@
+import dto.City;
 import service.CoordinateJsonParserForLocation;
 import service.FileReader;
+import service.FileWriter;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        CoordinateJsonParserForLocation coordinateJsonParserForLocation = new CoordinateJsonParserForLocation();
         FileReader fileReader = new FileReader();
-        String filename = "C:\\ftp\\test.xlsx";
-        List<String> cities = fileReader.getAllCities(filename);
+        FileWriter fileWriter = new FileWriter();
+        CoordinateJsonParserForLocation coordinateJsonParserForLocation = new CoordinateJsonParserForLocation();
+        String fileRead = "C:\\ftp\\test.xlsx";
+        String fileWrite = "C:\\ftp\\data.xlsx";
+        List<City> cities = fileReader.getAllCities(fileRead);
         System.out.println(cities);
-        for (String city: cities) {
-            coordinateJsonParserForLocation.sendRequest(city);
+        for (City city: cities) {
+            city = coordinateJsonParserForLocation.sendRequest(city);
         }
+        fileWriter.writeToFile(cities, fileWrite);
     }
 }

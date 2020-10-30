@@ -13,5 +13,19 @@ public class Polygon {
         this.minLon = minLon;
     }
 
+    public Double getMaxLat() {
+        return maxLat;
+    }
 
+    public Double getMinLat() {
+        return minLat;
+    }
+
+    public Double getMaxLon() {
+        return maxLon;
+    }
+
+    public Double getMinLon() {
+        return minLon;
+    }
 }
