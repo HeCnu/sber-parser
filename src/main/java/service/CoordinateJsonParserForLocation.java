@@ -9,6 +9,7 @@ import dto.Polygon;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -21,7 +22,7 @@ public class CoordinateJsonParserForLocation {
     public City sendRequest(City city) {
         try {
             String cityName = city.getName() + ", " + city.getRegion();
-            String url = "https://nominatim.openstreetmap.org/search.php?q=" + cityName + "&polygon_geojson=1&format=jsonv2";
+            String url = "https://nominatim.openstreetmap.org/search.php?q=" + URLEncoder.encode(cityName, "UTF-8") + "&polygon_geojson=1&format=jsonv2";
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             new URL(url).openStream()
@@ -53,11 +54,12 @@ public class CoordinateJsonParserForLocation {
             Polygon coordinates = new Polygon(maxLat, minLat, maxLon, minLon);
             city.setCoordinates(coordinates);
 
-            System.out.println("Результат для " + city + ": " + maxLat + " - " + minLat + " - " + maxLon + " - " + minLon);
+            System.out.println("Результат для " + city.getName() + ", " + city.getRegion() + ": " + maxLat + " - " + minLat + " - " + maxLon + " - " + minLon);
 
         } catch (Exception e) {
             System.out.println("Oops...\n" + e.getMessage());
         }
+        coordinatesList = new ArrayList<>();
         return city;
     }
 

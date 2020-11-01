@@ -1,6 +1,5 @@
 package service;
 
-import com.ibm.icu.text.CharsetDetector;
 import com.monitorjbl.xlsx.StreamingReader;
 
 import dto.City;
@@ -30,8 +29,8 @@ public class FileReader {
                 }
                 Cell cell1 = currentRow.getCell(0);
                 Cell cell2 = currentRow.getCell(1);
-                String cell1Str = new String(cell1.getStringCellValue().getBytes("UTF-8"),"windows-1251");
-                String cell2Str = new String(cell2.getStringCellValue().getBytes("UTF-8"),"windows-1251");
+                String cell1Str = cell1.getStringCellValue();
+                String cell2Str = cell2.getStringCellValue();
                 City city = new City(cell1Str, cell2Str);
                 cities.add(city);
             }

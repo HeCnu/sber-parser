@@ -17,8 +17,12 @@ public class FileWriter {
     public void writeToFile(List<City> cities, String filename) {
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet("DATA");
-        for (int i = 0; i < cities.size(); i++) {
-            Row row = writeToRowCells(sheet.createRow(i), cities.get(i));
+        Row firstRow = createFirstRow(sheet.createRow(0));
+
+        for(int i = 0; i < cities.size(); i++) {
+            if(!cities.get(i).getCoordinates().equals(null)) {
+                Row row = writeToRowCells(sheet.createRow(i+1), cities.get(i));
+            }
         }
         writeWorkbookToFile(wb, filename);
     }
@@ -33,15 +37,39 @@ public class FileWriter {
         }
     }
 
-    private Row writeToRowCells(Row row, City city) {
-
+    private Row createFirstRow(Row row) {
         try {
             Cell cell1 = row.createCell(0);
-            String cityName = new String(city.getName().getBytes("windows-1251"),"UTF-8");
+            cell1.setCellValue("City");
+
+            Cell cell2 = row.createCell(1);
+            cell2.setCellValue("Region");
+
+            Cell cell3 = row.createCell(2);
+            cell3.setCellValue("MaxLat");
+
+            Cell cell4 = row.createCell(3);
+            cell4.setCellValue("MinLat");
+
+            Cell cell5 = row.createCell(4);
+            cell5.setCellValue("MaxLon");
+
+            Cell cell6 = row.createCell(5);
+            cell6.setCellValue("MinLon");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return row;
+    }
+
+    private Row writeToRowCells(Row row, City city) {
+        try {
+            Cell cell1 = row.createCell(0);
+            String cityName = city.getName();
             cell1.setCellValue(cityName);
 
             Cell cell2 = row.createCell(1);
-            String cityRegion = new String(city.getRegion().getBytes("windows-1251"),"UTF-8");
+            String cityRegion = city.getRegion();
             cell2.setCellValue(cityRegion);
 
             Cell cell3 = row.createCell(2);
@@ -56,11 +84,9 @@ public class FileWriter {
             Cell cell6 = row.createCell(5);
             cell6.setCellValue(city.getCoordinates().getMinLon());
         } catch (Exception e) {
-
+            System.out.println(e.getMessage());
         }
-
         return row;
-
     }
 
 }
